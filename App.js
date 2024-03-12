@@ -13,7 +13,7 @@ import Card from "./app/components/Card";
 
 export default function App() {
   return (
-    <View >
+    <View style={{backgroundColor: '#f8f4f4', padding: 20, paddingTop: 100}} >
       <Card
         title="Denim Jacket"
         subTitle="$80"
