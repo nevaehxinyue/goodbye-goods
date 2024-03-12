@@ -4,6 +4,7 @@ export default {
     third: '#404040',  // grey
     black: '#000', // black
     white: '#fff', // white
-    bronze: '#945d38'
+    bronze: '#945d38',
+    mediumGrey: '#6e6969' 
 
 }
