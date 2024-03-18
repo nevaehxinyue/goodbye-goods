@@ -11,7 +11,9 @@ import AppButton from "./app/components/AppButton";
 import color from "./app/config/color";
 import Card from "./app/components/Card";
 import ListingDetailsScreen from "./app/components/ListingDetailsScreen";
-import ListItemSeller from "./app/components/ListItemSeller";
+import MessagesScreen from "./app/screens/MessagesScreen";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import ListItem from "./app/components/ListItem";
 
 export default function App() {
   return (
@@ -22,12 +24,15 @@ export default function App() {
     //     image= {require("./app/assets/jacket.png")}
     //   />
     // </View>
-    <ListingDetailsScreen />
-  
+    // <ListingDetailsScreen />
 
     // <WelcomeScreen />
+    <MessagesScreen />
 
-    // <ViewImageScreen />
+    //
+    // <GestureHandlerRootView style={{flex:1}}>
+    // <MessagesScreen />
+    // </GestureHandlerRootView>
   );
 }
 
