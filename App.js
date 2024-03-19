@@ -14,20 +14,20 @@ import ListingDetailsScreen from "./app/components/ListingDetailsScreen";
 import MessagesScreen from "./app/screens/MessagesScreen";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ListItem from "./app/components/ListItem";
+import Icon from "./app/components/Icon";
+import AccountScreen from "./app/screens/AccountScreen";
+
 
 export default function App() {
   return (
-    // <View style={{backgroundColor: '#f8f4f4', padding: 20, paddingTop: 100}} >
-    //   <Card
-    //     title="Denim Jacket"
-    //     subTitle="$80"
-    //     image= {require("./app/assets/jacket.png")}
-    //   />
-    // </View>
-    // <ListingDetailsScreen />
+    <GestureHandlerRootView style={{flex: 1}}>
+   
+     {/* <WelcomeScreen /> */}
+    {/* <MessagesScreen />  */}
+    <AccountScreen />
 
-    // <WelcomeScreen />
-    <MessagesScreen />
+
+  </GestureHandlerRootView>
 
     //
     // <GestureHandlerRootView style={{flex:1}}>
