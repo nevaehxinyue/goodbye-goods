@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Dimensions,
+  TextInput,
+} from "react-native";
 import {
   useDeviceOrientation,
   useDimensions,
@@ -12,24 +19,29 @@ import color from "./app/config/color";
 import Card from "./app/components/Card";
 import ListingDetailsScreen from "./app/components/ListingDetailsScreen";
 import MessagesScreen from "./app/screens/MessagesScreen";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ListItem from "./app/components/ListItem";
 import Icon from "./app/components/Icon";
 import AccountScreen from "./app/screens/AccountScreen";
 import ListingsScreen from "./app/screens/ListingsScreen";
+import { useState } from "react";
+import AppTextInput from "./app/components/AppTextInput";
+import AppPicker from "./app/components/AppPicker";
+import LoginScreen from "./app/screens/LoginScreen";
 
 
 export default function App() {
+
+
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-   
-     {/* <WelcomeScreen /> */}
-    {/* <MessagesScreen />  */}
-    {/* <AccountScreen /> */}
-    <ListingsScreen />
-
-
-  </GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* <WelcomeScreen /> */}
+      {/* <MessagesScreen />  */}
+      {/* <AccountScreen /> */}
+      {/* <ListingsScreen /> */}
+     <LoginScreen />
+        
+    </GestureHandlerRootView>
 
     //
     // <GestureHandlerRootView style={{flex:1}}>
