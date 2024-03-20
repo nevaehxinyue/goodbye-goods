@@ -4,8 +4,7 @@ import AppTextInput from "../components/AppTextInput";
 import AppButton from "../components/AppButton";
 import { Formik } from "formik";
 import * as Yup from "yup"
-import AppText from "../components/AppText";
-import color from "../config/color";
+import ErrorMessage from "../components/ErrorMessage";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email().label("Email"),
@@ -13,6 +12,7 @@ const validationSchema = Yup.object().shape({
 })
 
 function LoginScreen(props) {
+   
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -22,7 +22,7 @@ function LoginScreen(props) {
           onSubmit={(values) => console.log(values)}
           validationSchema={validationSchema}
         >
-          {({ handleChange, handleSubmit, errors }) => (
+          {({ handleChange, handleSubmit, errors, touched, setFieldTouched}) => (
             <>
               <AppTextInput
                 autoCapitalize="none"
@@ -30,10 +30,11 @@ function LoginScreen(props) {
                 icon="email"
                 keyboardType="email-address"
                 onChangeText={handleChange("email")}
+                onBlur={() => setFieldTouched("email")}
                 placeholder="Email"
                 textContentType="emailAddress"
               />
-              <AppText style={{color: 'red'}}>{errors.email}</AppText>
+              <ErrorMessage error={errors.email} visible={touched.email}/>
               <AppTextInput
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -43,7 +44,7 @@ function LoginScreen(props) {
                 secureTextEntry
                 textContentType="password" // Ios will auto fill with its key chain
               />
-              <AppText style={{color: 'red'}}>{errors.password}</AppText>
+              <ErrorMessage error={errors.password} visible={touched.password}/>
               <AppButton
                 title="Login"
                 onPress={handleSubmit}
