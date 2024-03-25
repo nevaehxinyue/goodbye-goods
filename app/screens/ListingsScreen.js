@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
 import Card from '../components/Card';
 import color from '../config/color';
+import Screen from '../components/Screen';
 
 const listings = [
     {
@@ -21,8 +22,7 @@ const listings = [
 function ListingsScreen(props) {
 
     return (
-      <SafeAreaView style={styles.screen}>
-      <View style={{ padding: 20}}>
+      <Screen style={styles.screen}>
         <FlatList 
         data={listings}
         keyExtractor={listing => listing.id.toString()}
@@ -32,16 +32,11 @@ function ListingsScreen(props) {
             subTitle={"$" + item.price}
             image={item.image}/>
     )} />
-    </View>
-   
-
-
-      </SafeAreaView>
+   </Screen>
     );
 }
 const styles = StyleSheet.create({
     screen: {
-        flex: 1,
         padding: 20,
         backgroundColor: color.lightGray
     }
