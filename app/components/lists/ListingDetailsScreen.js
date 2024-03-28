@@ -7,7 +7,7 @@ import ListItem from "./ListItem";
 function ListingDetailsScreen(props) {
   return (
     <View>
-      <Image style={styles.image} source={require("../assets/jacket.png")} />
+      <Image style={styles.image} source={require("../../assets/jacket.png")} />
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>Denim jacket for sale</AppText>
         <AppText style={styles.price}>$80</AppText>
@@ -16,7 +16,7 @@ function ListingDetailsScreen(props) {
           <ListItem
             title="Nevaeh"
             subTitle="5 Listings"
-            image={require("../assets/user2.jpg")}
+            image={require("../../assets/user2.jpg")}
           />
         </View>
       </View>

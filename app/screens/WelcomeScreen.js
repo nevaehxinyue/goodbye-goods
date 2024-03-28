@@ -13,7 +13,7 @@ function WelcomeScreen(props) {
       >
         <View style={styles.logoContainer}>
           <Image style={styles.logo} source={require("../assets/logo2.png")} />
-          <AppText>Sell what you don't need</AppText>
+          <AppText style={styles.text}>Sell what you don't need</AppText>
         </View>
         <View style={styles.buttonsContainer}>
           <AppButton title="Login" />
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
     top: 100,
     alignItems: "center",
   },
+  text: {
+    fontSize:16
+  }
 });
 
 export default WelcomeScreen;
