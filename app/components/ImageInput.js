@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect } from "react";
 import {
   Alert,
   Image,
@@ -7,11 +7,22 @@ import {
   View,
 } from "react-native";
 import color from "../config/color";
-import Icon from "./Icon";
+
 import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function ImageInput({ imageUri, onChangeImage }) {
+    useEffect(() => {
+        requestPermission();
+      }, []);
+      
+    const requestPermission = async () => {
+        const { granted } = await ImagePicker.requestCameraPermissionsAsync();
+        if (!granted) {
+          alert("You need to enable permission to access the library.");
+        }
+      };
+      
   const handlePress = () => {
     if (!imageUri) selectImage();
     else
@@ -63,7 +74,6 @@ const styles = StyleSheet.create({
     height: 100,
     overflow: "hidden",
     width: 100,
-    borderColor: "red",
   },
   image: {
     height: "100%",

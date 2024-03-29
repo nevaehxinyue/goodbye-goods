@@ -31,40 +31,17 @@ import AppTextInput from "./app/components/TextInput";
 import AppPicker from "./app/components/Picker";
 import LoginScreen from "./app/screens/LoginScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
-import ListingEditScreen from "./app/screens/ListingEditScreen";
 import * as ImagePicker from 'expo-image-picker'
 import ImageInput from "./app/components/ImageInput";
+import ImageInputList from "./app/components/ImageInputList";
+import ListingEditScreen from "./app/screens/ListingEditScreen"
 
 
 export default function App() {
-  const [imageUri, setImageUri ] = useState();
-  const requestPermission = async () => {
-    const { granted } = await ImagePicker.requestCameraPermissionsAsync();
-    if (!granted) {
-      alert("You need to enable permission to access the library.");
-    }
-  };
-  useEffect(() => {
-    requestPermission();
-  }, []);
-  
-  const selectImage = async() =>{
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync();
-    if(!result.canceled){
-      console.log(result.assets[0].uri)
-      setImageUri(result.assets[0].uri)
-    
-    };
-    } catch (error) {
-      console.log('Error reading the image.') 
-    }
-  };
-
+ 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      
-      <ImageInput imageUri={imageUri} onChangeImage={(uri) => setImageUri(uri)} />
+    <GestureHandlerRootView style={{flex: 1}} >
+      <ListingEditScreen />
       
       {/* <WelcomeScreen /> */}
       {/* <MessagesScreen />  */}
@@ -72,7 +49,7 @@ export default function App() {
       {/* <ListingsScreen /> */}
       {/* <LoginScreen /> */}
       {/* <RegisterScreen /> */}
-      {/* <ListingEditScreen /> */}
+    
       {/* <ViewImageScreen /> */}
     </GestureHandlerRootView>
 
