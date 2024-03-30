@@ -37,7 +37,11 @@ import ImageInputList from "./app/components/ImageInputList";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
 import Screen from "./app/components/Screen";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import navigationTheme from "./app/navigation/navigationTheme";
+import AppNavigator from "./app/navigation/AppNavigator";
 
 export default function App() {
   const Link = () => {
@@ -69,27 +73,60 @@ export default function App() {
 
   const Stack = createStackNavigator();
   const StackNavigator = () => (
-    <Stack.Navigator screenOptions={{
-      headerStyle: { backgroundColor: "blue"}, 
-      headerTintColor: "white" ,
-    }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "blue" },
+        headerTintColor: "white",
+      }}
+    >
       <Stack.Screen name="Tweets" component={Tweets} />
       <Stack.Screen
         name="TweetsDetails"
         component={TweetsDetails}
         options={({ route }) => ({
           title: route.params.id,
-          headerStyle: { backgroundColor: "tomato"}, 
-          headerTintColor: "white" ,
+          headerStyle: { backgroundColor: "tomato" },
+          headerTintColor: "white",
         })}
       />
     </Stack.Navigator>
   );
+  const Account = () => {
+    <Screen>
+      <Text>Account</Text>
+    </Screen>;
+  };
+
+  const Tab = createBottomTabNavigator();
+  const TabNavigator = () => (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveBackgroundColor: "tomato",
+        tabBarActiveTintColor: "white",
+        tabBarInactiveBackgroundColor: "#eee",
+        tabBarInactiveTintColor: "black",
+      }}
+    >
+      <Tab.Screen
+        name="Feed"
+        component={StackNavigator}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons name="home" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen name="Account" component={Account} />
+    </Tab.Navigator>
+  );
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <StackNavigator />
+      <NavigationContainer theme={navigationTheme}>
+        {/* <StackNavigator /> */}
+
+        {/* <AuthNavigator /> */}
+        <AppNavigator />
       </NavigationContainer>
       {/* <ListingEditScreen /> */}
 
