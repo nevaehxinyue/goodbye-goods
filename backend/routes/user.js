@@ -21,4 +21,6 @@ router.get('/:id', auth, (req, res) => {
         email: user.email,
         listings: listings.length 
     })
-}) 
+}) ;
+
+module.exports = router;

@@ -35,6 +35,7 @@ const validateCategoryId = (req, res, next) => {
 router.get("/", (req, res) => {
   const listings = listingsStore.getListings();
   const resources = listings.map(listingMapper);
+  console.log(resources[0])
   res.send(resources);
 });
 

@@ -125,8 +125,8 @@ export default function App() {
       <NavigationContainer theme={navigationTheme}>
         {/* <StackNavigator /> */}
 
-        <AuthNavigator />
-        {/* <AppNavigator /> */}
+        {/* <AuthNavigator /> */}
+        <AppNavigator />
       </NavigationContainer>
       {/* <ListingEditScreen /> */}
 

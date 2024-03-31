@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const schema = ( req, res, next) => {
+module.exports = schema => ( req, res, next) => {
     const result = schema.validate(req.body);
 
     if(result.error)
@@ -8,5 +8,3 @@ const schema = ( req, res, next) => {
 
     next();
 };
-
-module.exports = schema;
