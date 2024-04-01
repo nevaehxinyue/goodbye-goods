@@ -21,15 +21,17 @@ const schema = Joi.object({
   description: Joi.string().allow(""),
   price: Joi.number().required().min(1),
   categoryId: Joi.number().required().min(1),
-  location: Joi.object({
-    latitude: Joi.number().required(),
-    longitude: Joi.number().required(),
-  }).optional(),
+  location: Joi.string().optional(),
+  // location: Joi.object({
+  //   latitude: Joi.number().required(),
+  //   longitude: Joi.number().required(),
+  // }).optional(),
 });
 
 const validateCategoryId = (req, res, next) => {
   if (!categoriesStore.getCategory(parseInt(req.body.categoryId)))
     return res.status(400).send({ error: "Invalid Category ID." });
+  next();
 };
 
 router.get("/", (req, res) => {
@@ -37,7 +39,9 @@ router.get("/", (req, res) => {
   const resources = listings.map(listingMapper);
   res.send(resources);
 });
-
+// Order of these middleware matters.
+// "upload" should come before other "validate" because we have to handle
+// multi-part form data.
 //upload.array allows the server to handle multiple file uploads in a single request.
 // And it adds a 'file' property to the 'req' object, where we can access the files
 // in subsequent middleware or route handlers. Each file object in 'req.file' will
@@ -47,29 +51,31 @@ router.get("/", (req, res) => {
 //name 'images'. (e.g. <input type="file" name="images" multiple> )
 router.post(
   "/",
+ 
   [
-    auth,
+    // auth,
     upload.array("images", config.get("maxImageCount")),
     validateWith(schema),
     validateCategoryId,
-    imageResize,
+    imageResize
   ],
-  (req, res) => {
+
+  async (req, res) => {
     const listing = {
-        title: req.body.title,
-        price: parseFloat(req.body.price),
-        userId: req.user.userId, 
-        categoryId: parseInt(req.body.categoryId),
-        description: req.body.description,
+      title: req.body.title,
+      price: parseFloat(req.body.price),
+      // userId: req.user.userId,
+      categoryId: parseInt(req.body.categoryId),
+      description: req.body.description,
     };
 
-    listing.images = req.images.map((fileName) => ({ fileName: fileName}));
-    if( req.body.location ) listing.location = JSON.parse(req.body.location);
+    listing.images = req.images.map((fileName) => ({ fileName: fileName }));
+
+   if (req.body.location) listing.location = JSON.parse(req.body.location);
 
     listingsStore.addListing(listing);
 
     res.status(201).send(listing);
-    
   }
 );
 

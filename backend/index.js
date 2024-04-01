@@ -2,7 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const config = require("config");
 const compression = require("compression");
-const app = express();
+
 
 const categories = require("./routes/categories");
 const listings = require("./routes/listings");
@@ -13,6 +13,7 @@ const auth = require("./routes/auth");
 const my = require("./routes/my");
 const messages = require("./routes/messages");
 const expoPushToken = require("./routes/expoPushToken");
+const app = express();
 
 
 app.use(express.static("public"));
@@ -34,4 +35,4 @@ app.use("/api/messages", messages);
 const port = process.env.PORT || config.get('port');
 app.listen(port, function(){
     console.log(`Server started on port ${port}...`);
-})
+});
