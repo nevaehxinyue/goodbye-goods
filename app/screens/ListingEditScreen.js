@@ -78,69 +78,73 @@ const categories = [
 function ListingEditScreen(props) {
   const location = useLocation();
   const [ uploadVisible, setUploadVisible ]= useState(false);
-  const [ progress, setProgress ] = useState(0);
+  // const [ progress, setProgress ] = useState(0);
 
-  const handleSubmit = async (listing) => {
+  const handleSubmit = async (listing, { resetForm}) => {
     // console.log("submiting")
     // console.log(listing)
     // console.log(location)
-    setProgress(0);
-    setUploadVisible(true);
     const result = await listingsApi.addListing(
-      { ...listing, location },
-      (progress) => setProgress(progress)
+      { ...listing, location }
     );
-    setUploadVisible(false)
+
 
     if (!result.ok) {
       // console.log(result)
+      setUploadVisible(false);
       alert("Could not save the listing.");
       return;
+    } else {
+      setUploadVisible(true);
     }
-    alert("Success!");
+    
+    // alert("Success!");
+    resetForm();
   };
-
+  
   return (
     <Screen style={styles.container}>
-      <UploadScreen visible={setUploadVisible} progress={progress} />
+      <UploadScreen  onDone={() => setUploadVisible(false)} visible={uploadVisible} />
+      { !uploadVisible && 
       <AppForm
-        initialValues={{
-          title: "",
-          price: 0,
-          description: "",
-          category: null,
-          images: [],
-        }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <FormImagePicker name="images" />
+      initialValues={{
+        title: "",
+        price: "",
+        description: "",
+        category: null,
+        images: [],
+      }}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      <FormImagePicker name="images" />
 
-        <AppFormField name="title" maxLength={255} placeholder="Title" />
-        <AppFormField
-          keyboardType="numeric"
-          maxLength={8}
-          placeholder="Price"
-          name="price"
-          width={150}
-        />
-        <AppFormPicker
-          items={categories}
-          name="category"
-          numOfColumns={3}
-          placeholder="Category"
-          PickerItemComponent={CategoryPickerItem}
-          width="50%"
-        />
+      <AppFormField name="title" maxLength={255} placeholder="Title" />
+      <AppFormField
+        keyboardType="numeric"
+        maxLength={8}
+        placeholder="Price"
+        name="price"
+        width={150}
+      />
+      <AppFormPicker
+        items={categories}
+        name="category"
+        numOfColumns={3}
+        placeholder="Category"
+        PickerItemComponent={CategoryPickerItem}
+        width="50%"
+      />
 
-        <AppFormField
-          maxLength={255}
-          name="description"
-          placeholder="Description"
-        />
+      <AppFormField
+        maxLength={255}
+        name="description"
+        placeholder="Description"
+      />
 
-        <SubmitButton title="Post" />
-      </AppForm>
+      <SubmitButton title="Post" />
+    </AppForm>}
+      
     </Screen>
   );
 }

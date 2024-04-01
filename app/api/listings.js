@@ -4,7 +4,7 @@ const endpoint = "/listings";
 
 const getListings = () => client.get(endpoint);
 
-const addListing = (listing, onUploadProgress) => {
+const addListing = (listing) => {
   // console.log(listing)
   const data = new FormData(); //By default the content-type is multipart/form-data for FormData
 
@@ -29,7 +29,7 @@ const addListing = (listing, onUploadProgress) => {
 
   return client.post(endpoint, data, {
     headers: { "Content-Type": "multipart/form-data" },
-    onUploadProgress: (progress) => onUploadProgress(progress.loaded / progress.total),
+    // onUploadProgress: (progress) => onUploadProgress(progress.loaded / progress.total),
   });
 };
 
