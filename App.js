@@ -42,83 +42,11 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
+import NetInfo from "@react-native-community/netinfo";
 
 export default function App() {
-  const Link = () => {
-    const navigation = useNavigation();
-    return (
-      <Button
-        title="Click"
-        onPress={() => navigation.navigate("TweetsDetails")}
-      />
-    );
-  };
-
-  const Tweets = ({ navigation }) => (
-    <Screen>
-      <Text>Tweets</Text>
-      {/* <Link /> */}
-      <Button
-        title="View Tweet"
-        onPress={() => navigation.navigate("TweetsDetails", { id: 1 })}
-      />
-    </Screen>
-  );
-
-  const TweetsDetails = ({ route }) => (
-    <Screen>
-      <Text>Tweets Details {route.params.id}</Text>
-    </Screen>
-  );
-
-  const Stack = createStackNavigator();
-  const StackNavigator = () => (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: "blue" },
-        headerTintColor: "white",
-      }}
-    >
-      <Stack.Screen name="Tweets" component={Tweets} />
-      <Stack.Screen
-        name="TweetsDetails"
-        component={TweetsDetails}
-        options={({ route }) => ({
-          title: route.params.id,
-          headerStyle: { backgroundColor: "tomato" },
-          headerTintColor: "white",
-        })}
-      />
-    </Stack.Navigator>
-  );
-  const Account = () => {
-    <Screen>
-      <Text>Account</Text>
-    </Screen>;
-  };
-
-  const Tab = createBottomTabNavigator();
-  const TabNavigator = () => (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarActiveBackgroundColor: "tomato",
-        tabBarActiveTintColor: "white",
-        tabBarInactiveBackgroundColor: "#eee",
-        tabBarInactiveTintColor: "black",
-      }}
-    >
-      <Tab.Screen
-        name="Feed"
-        component={StackNavigator}
-        options={{
-          tabBarIcon: ({ size, color }) => (
-            <MaterialCommunityIcons name="home" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen name="Account" component={Account} />
-    </Tab.Navigator>
-  );
+  const netInfo = NetInfo.fetch().then(netInfo => console.log(netInfo))
+  
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
