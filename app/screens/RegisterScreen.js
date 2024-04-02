@@ -8,7 +8,7 @@ import Screen from "../components/Screen";
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().min(1).label("username"),
   email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(8).label("Password"),
+  password: Yup.string().required().min(5).label("Password"),
 });
 
 function RegisterScreen(props) {
