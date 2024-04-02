@@ -26,7 +26,7 @@ import ListItem from "./app/components/lists/ListItem";
 import Icon from "./app/components/Icon";
 import AccountScreen from "./app/screens/AccountScreen";
 import ListingsScreen from "./app/screens/ListingsScreen";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AppTextInput from "./app/components/TextInput";
 import AppPicker from "./app/components/Picker";
 import LoginScreen from "./app/screens/LoginScreen";
@@ -48,10 +48,15 @@ import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/authContext";
 import authStorage from "./app/auth/authTokenStorage";
 import { jwtDecode } from "jwt-decode";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 
+  // 
   const [ user, setUser ] = useState();
+  const [ appIsReady, setAppIsReady ] = useState(false);
 
   const restoreToken = async () => {
     const authToken = await authStorage.getToken();
@@ -59,14 +64,34 @@ export default function App() {
     setUser(jwtDecode(authToken));
   }
 
+  const prepare = async () => {
+    try {
+      restoreToken();
+      
+    } catch (error) {
+      console.warn(error)
+      
+    } finally {
+      setAppIsReady(true);
+    }
+  }
+
   useEffect(()=> {
-    restoreToken();
-  }, [])
+   prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async() => {
+    if(appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if(!appIsReady){ return null; }
 
   return (
 
     <AuthContext.Provider value={{ user, setUser}}>
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
     <OfflineNotice />
       <NavigationContainer theme={navigationTheme}>
         {/* <StackNavigator /> */}
@@ -91,6 +116,7 @@ export default function App() {
     // <GestureHandlerRootView style={{flex:1}}>
     // <MessagesScreen />
     // </GestureHandlerRootView>
+    
     
 
   );
