@@ -42,12 +42,10 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
-import NetInfo from "@react-native-community/netinfo";
+import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export default function App() {
-  const netInfo = NetInfo.fetch().then(netInfo => console.log(netInfo))
-  
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer theme={navigationTheme}>
