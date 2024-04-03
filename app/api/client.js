@@ -1,10 +1,11 @@
 import { create } from 'apisauce';
 import cache from "../utilities/cache";
 import authStorage from '../auth/authTokenStorage';
+import { BASEURL } from '@env'
 
 const apiClient = create({
     // "http://161.29.91.92:9000/api
-    baseURL: "http://172.23.51.11:9000/api",
+    baseURL: BASEURL,
 });
 // For protecting APIs
 apiClient.addAsyncRequestTransform(async(request) => {

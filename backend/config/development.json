@@ -1,4 +1,4 @@
 {
-    "assetsBaseUrl": "http://172.23.51.11:9000/assets/",
+    "assetsBaseUrl": "http://192.168.1.68:9000/assets/",
     "port": 9000
 }
