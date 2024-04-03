@@ -45,18 +45,25 @@ router.post("/", [auth, validateWith(schema)], async(req, res) => {
     const targetUser = usersStore.getUserById(parseInt(listing.userId));
     if(!targetUser) return res.status(400).send({ error: "Invalid user ID."});
 
-    messagesStore.add({
-        fromUserId: req.user.userId,
-        toUserId: listing.userId,
-        listingId,
-        content: message
-    });
+    try {
+        messagesStore.add({
+            fromUserId: req.user.userId,
+            toUserId: listing.userId,
+            listingId,
+            content: message
+        });
+        
+    } catch (error) {
+        return res.status(400).send({error: "Failed to add message", error})
+        
+    }
 
-    const { expoPushToken } = targetUser;
+   
+    // const { expoPushToken } = targetUser;
 
-    if (Expo.isExpoPushToken(expoPushToken)) {
-        await sendPushNotification(expoPushToken, message);
-    };
+    // if (Expo.isExpoPushToken(expoPushToken)) {
+    //     await sendPushNotification(expoPushToken, message);
+    // };
 
     res.status(201).send();
 

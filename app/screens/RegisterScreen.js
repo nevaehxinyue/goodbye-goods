@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { AppForm, AppFormField, ErrorMessage } from "../components/forms";
 import * as Yup from "yup";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { SubmitButton } from "../components/forms";
 import Screen from "../components/Screen";
 import usersApi from "../api/users";
+import useApi from "../hooks/useApi";
+import ActivityIndicator from "../components/ActivityIndicator";
+import authApi from '../api/auth';
+import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(1).label("username"),
@@ -13,33 +17,43 @@ const validationSchema = Yup.object().shape({
 });
 
 function RegisterScreen(props) {
-  const [ error, setError ] = useState();
-  const [ isError, setIsError ] = useState(false);
+  const registerApi = useApi(usersApi.register);
+  const loginApi = useApi(authApi.login);
+  const { logIn } = useAuth();
+
+  const [ registerError, setRegisterError ] = useState();
 
   const handleSubmit = async (userInfo, { resetForm}) => {
-    const result = await usersApi.register(userInfo);
-
+    // Firstly, register a user
+    const result = await registerApi.request(userInfo);
     if(!result.ok) {
-      setIsError(true);
-      if(result.data) setError(result.data.error);
+      if(result.data) setRegisterError(result.data.error);
       else {
-        setError("An unexpected error occured.")
+        setRegisterError("An unexpected error occured.")
       };
       return null;
     };
-    alert("Success!You can log in now.");
+    //Secondly login the user and store the authToken on back end
+    const { data: authToken } = await loginApi.request(userInfo.email, userInfo.password);
+    if(authToken){
+      logIn(authToken);
+    } else {
+      setRegisterError("Cannot store the authToken")
+    }
+    
     resetForm();
-
 
   }
   return (
+    <>
+    <ActivityIndicator visible={registerApi.loading || loginApi.loading} />
     <Screen style={styles.container}>
       <AppForm
         initialValues={{ name: "", email: "", password: "" }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        <ErrorMessage error={error} visible={isError} />
+        <ErrorMessage error={registerError} visible={registerApi.error} />
         <AppFormField
           autoCapitalize="none"
           autoCorrect={false}
@@ -70,6 +84,7 @@ function RegisterScreen(props) {
         <SubmitButton title="Register" />
       </AppForm>
     </Screen>
+    </>
   );
 }
 const styles = StyleSheet.create({

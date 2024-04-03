@@ -4,13 +4,14 @@ module.exports = (req, res, next) => {
     const token = req.header("Authorization");
     // Check if the user has logged in or not 
     //Step 1: check if the 'Authorization' header that should be registered after the user logs in exists 
+    console.log(`Authorization Token: ${token}`)
     
-    console.log(`token: ${token}`)
     if(!token)
         return res.status(401).send({error: "Access denied. No token provided."});
 
     try {
-        const payload = Jwt.verify(token, 'jwtPrivateKey');
+        const payload = Jwt.verify(token, 'jwtPrivatekey');
+        console.log(`payload: ${payloadx}`)
         req.user = payload;
         next();
 

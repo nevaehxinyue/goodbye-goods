@@ -50,6 +50,7 @@ import authStorage from "./app/auth/authTokenStorage";
 import { jwtDecode } from "jwt-decode";
 import * as SplashScreen from "expo-splash-screen";
 
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -75,8 +76,11 @@ export default function App() {
     }
   }
 
+  
+
   useEffect(()=> {
    prepare();
+ 
   }, []);
 
   const onLayoutRootView = useCallback(async() => {
@@ -86,6 +90,7 @@ export default function App() {
   }, [appIsReady]);
 
   if(!appIsReady){ return null; }
+
 
   return (
 

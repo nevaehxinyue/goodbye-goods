@@ -18,6 +18,8 @@ function ListingsScreen({ navigation }) {
   }, []);
 
   return (
+    <>
+    <ActivityIndicator visible={loading}/>
     <Screen style={styles.screen}>
       {error && (
         <>
@@ -25,7 +27,7 @@ function ListingsScreen({ navigation }) {
           <AppButton title="Retry" onPress={loadListings} buttonColor='bronze' />
         </>
       )}
-      <ActivityIndicator visible={loading}/>
+      
       <FlatList
         data={listings}
         keyExtractor={(listing) => listing.id.toString()}
@@ -40,6 +42,7 @@ function ListingsScreen({ navigation }) {
         )}
       />
     </Screen>
+    </>
   );
 }
 const styles = StyleSheet.create({
