@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const Joi = require("joi");
 const { Expo } = require("expo-server-sdk");
 const auth = require("../middleware/auth");
@@ -10,6 +11,7 @@ const listingsStore = require("../store/listings");
 const messagesStore = require("../store/messages");
 const sendPushNotification = require("../utilities/pushNotifications");
 
+
 const schema = Joi.object({
     listingId: Joi.number().required(),
     message: Joi.string().required()
@@ -17,6 +19,7 @@ const schema = Joi.object({
 
 router.get('/', auth, (req,res) => {
     const messages = messagesStore.getMessagesForUser(req.user.userId);
+    console.log(messages)
 
     const mapUser = (userId) => {
         const user = usersStore.getUserById(userId);
@@ -30,7 +33,7 @@ router.get('/', auth, (req,res) => {
         content: message.content,
         fromUser: mapUser(message.fromUserId),
         toUser: mapUser(message.toUserId),
-
+        userImage: message.userImage,      
     }));
 
     res.send(resources);

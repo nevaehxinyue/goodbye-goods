@@ -19,7 +19,8 @@ router.get('/:id', auth, (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        listings: listings.length 
+        profileImage: user.profileImage,
+        listings: listings.length
     })
 }) ;
 

@@ -15,13 +15,8 @@ function MyListingsScreen({navigation}) {
     const { data: myListings, error, loading, request: loadMyListings } = useApi(myListingsApi.getMyListings);
 
     useEffect(() => {
-        (async () => {
-            const response = await loadMyListings();
-            console.log(response);
-          })()  
+        loadMyListings();
     },[]);
-
-    console.log(`mylistings: ${myListings}`)
 
 
     return (

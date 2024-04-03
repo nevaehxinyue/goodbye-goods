@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
 import ListItem from "../components/lists/ListItem";
 import color from "../config/color";
@@ -8,6 +8,8 @@ import Screen from "../components/Screen";
 import AuthContext from "../auth/authContext";
 import authStorage from "../auth/authTokenStorage";
 import useAuth from "../auth/useAuth";
+import useApi from "../hooks/useApi";
+import userApi from "../api/user";
 
 const menuItems = [
   {
@@ -33,13 +35,21 @@ const menuItems = [
 function AccountScreen({ navigation }) {
   const { user, logOut } = useAuth();
 
+
+  const { data: authorizedUser, request: loadUser } = useApi(userApi.getUser);
+
+  useEffect(() => {
+    loadUser(user.userId);
+  },[])
+
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          image={require("../assets/user2.jpg")}
-          title={user.name}
-          subTitle={user.email}
+          image={authorizedUser.profileImage}
+          title={authorizedUser.name}
+          subTitle={authorizedUser.email}
         />
       </View>
       <View style={styles.container}>

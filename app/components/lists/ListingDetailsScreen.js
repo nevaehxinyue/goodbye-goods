@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import color from "../../config/color";
 import AppText from "../Text";
 import ListItem from "./ListItem";
 import { Image } from "react-native-expo-image-cache";
 import ContactSellerForm from "../ContactSellerForm";
+import useApi from "../../hooks/useApi";
+import userApi from "../../api/user";
+
+const assetsBaseUrl = process.env.ASSETS_BASEURL;
 
 function ListingDetailsScreen({ route }) {
   const listing = route.params;
+  const { data: user, request: loadUser } = useApi(userApi.getUser);
+
+  useEffect(() => {
+    loadUser(listing.userId);
+  },[])
+
   return (
     <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={Platform.OS === 'ios' ? 0: 100}>
     <View>
@@ -23,9 +33,9 @@ function ListingDetailsScreen({ route }) {
 
         <View style={styles.userContainer}>
           <ListItem
-            title="Nevaeh"
-            subTitle="5 Listings"
-            image={require("../../assets/user2.jpg")}
+            title={user.name}
+            subTitle={user.listings}
+            image={user.profileImage}
           />
         </View>
         <ContactSellerForm listing={listing} />

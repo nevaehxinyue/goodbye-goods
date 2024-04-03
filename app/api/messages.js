@@ -7,4 +7,8 @@ const send = (message, listingId) => {
     })
 };
 
-export default { send };
+const getMessages = () => {
+    return client.get('/messages');
+}
+
+export default { send, getMessages };

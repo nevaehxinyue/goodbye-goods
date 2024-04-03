@@ -1,15 +1,25 @@
-const users = [
+require('dotenv').config();
+const baseUrl = process.env.ASSETS_BASEURL;const users = [
     {
       id: 1,
       name: "Nevaeh",
       email: "nevaeh@domain.com",
       password: "12345",
+      profileImage: `${baseUrl}user2.jpg`
     },
     {
       id: 2,
       name: "Shirley",
       email: "shirley@domain.com",
       password: "12345",
+      profileImage: `${baseUrl}user1.jpg`
+    },
+    {
+      id: 3,
+      name: "Jane",
+      email: "janey@domain.com",
+      password: "12345",
+      profileImage: `${baseUrl}user3.jpg`
     },
   ];
   

@@ -18,7 +18,7 @@ function ListItem({
       <TouchableHighlight onPress={onPress} underlayColor={color.lightPinkGray}>
         <View style={styles.container}>
           {IconComponent}
-          {image && <Image style={styles.image} source={image} />}
+          {image && <Image style={styles.image} source={{uri:image}} />}
 
           <View style={styles.detailsContainer}>
             <AppText style={styles.title} numberOfLines={1}>
