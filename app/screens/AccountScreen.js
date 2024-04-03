@@ -17,6 +17,7 @@ const menuItems = [
       textColor: color.second,
       backgroundColor: color.third,
     },
+    targetScreen: 'MyListings'
   },
   {
     title: "My Messages",

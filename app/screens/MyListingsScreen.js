@@ -1,35 +1,42 @@
-import React, { useEffect, } from "react";
+import React, { useEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import color from "../config/color";
 import Screen from "../components/Screen";
 import routes from "../navigation/routes";
-import listingsApi from "../api/listings";
 import AppText from "../components/Text";
 import AppButton from "../components/Button";
 import ActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
+import myListingsApi from "../api/myListings"
 
-function ListingsScreen({ navigation }) {
-    const { data: listings, error, loading, request: loadListings } = useApi(listingsApi.getListings);
+function MyListingsScreen({navigation}) {
 
-  useEffect(() => {
-    loadListings();
-  }, []);
+    const { data: myListings, error, loading, request: loadMyListings } = useApi(myListingsApi.getMyListings);
 
-  return (
-    <>
+    useEffect(() => {
+        (async () => {
+            const response = await loadMyListings();
+            console.log(response);
+          })()  
+    },[]);
+
+    console.log(`mylistings: ${myListings}`)
+
+
+    return (
+        <>
     <ActivityIndicator visible={loading}/>
     <Screen style={styles.screen}>
       {error && (
         <>
           <AppText>Couldn't retrieve the listings</AppText>
-          <AppButton title="Retry" onPress={loadListings} buttonColor='bronze' />
+          <AppButton title="Retry" onPress={loadMyListings} buttonColor='bronze' />
         </>
       )}
       
       <FlatList
-        data={listings}
+        data={myListings}
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <Card
@@ -43,13 +50,14 @@ function ListingsScreen({ navigation }) {
       />
     </Screen>
     </>
-  );
+    );
 }
+
 const styles = StyleSheet.create({
-  screen: {
-    padding: 20,
-    backgroundColor: color.lightGray,
-  },
+    screen: {
+        padding: 20,
+        backgroundColor: color.lightGray,
+      },
 });
 
-export default ListingsScreen;
+export default MyListingsScreen;

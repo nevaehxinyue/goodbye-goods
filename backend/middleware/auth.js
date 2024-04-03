@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
 
     try {
         const payload = Jwt.verify(token, 'jwtPrivatekey');
-        console.log(`payload: ${payloadx}`)
+        console.log(`payload: ${payload}`)
         req.user = payload;
         next();
 
