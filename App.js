@@ -58,15 +58,14 @@ export default function App() {
   const [ user, setUser ] = useState();
   const [ appIsReady, setAppIsReady ] = useState(false);
 
-  const restoreToken = async () => {
-    const authToken = await authStorage.getToken();
-    if(!authToken) return;
-    setUser(jwtDecode(authToken));
-  }
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if(user) setUser(user);
+  };
 
   const prepare = async () => {
     try {
-      restoreToken();
+      restoreUser();
       
     } catch (error) {
       console.warn(error)

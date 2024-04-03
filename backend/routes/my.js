@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 const listingsStore = require("../store/listings");
 const listingMapper = require("../mappers/listings");
 
-router.get('listings', auth, (req, res) => {
+router.get('/listings', auth, (req, res) => {
     const listings = listingsStore.filterListings(
         listing => listing.userId === req.user.userId
     );

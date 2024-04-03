@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import AuthContext from "../auth/authContext";
 import "core-js/stable/atob";
 import authStorage from "../auth/authTokenStorage";
+import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -15,18 +16,16 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen(props) {
-  const authContext = useContext(AuthContext);
+const { user, logIn } = useAuth();
   const [ loginFailed, setLoginFailed ] = useState(false);
   const handleSubmit = async ({ email, password}) => {
     const result = await authApi.login(email, password);
     if(!result.ok) {
       setLoginFailed(true);
     } else{
+       console.log(`result.data: ${result.data}`)
       setLoginFailed(false);
-      const user = jwtDecode(result.data);
-      console.log(user)
-      authContext.setUser(user);
-      authStorage.storeToken(result.data);
+      logIn(result.data); 
     }
 
   }

@@ -1,5 +1,5 @@
 import * as SecureStorage from "expo-secure-store";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { jwtDecode } from 'jwt-decode';
 
 const key = 'authToken'
 const storeToken = async(authToken) => {
@@ -21,6 +21,15 @@ const getToken = async() => {
     }
 };
 
+const getUser = async() => {
+    try {
+        const token = await getToken();
+        return token? jwtDecode(token) : null;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const removeToken = async() => {
     try {
         await SecureStorage.deleteItemAsync(key);
@@ -31,4 +40,4 @@ const removeToken = async() => {
    
 };
 
-export default { storeToken, getToken, removeToken};
+export default { getToken, getUser, storeToken, removeToken};

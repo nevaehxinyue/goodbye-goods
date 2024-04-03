@@ -1,10 +1,19 @@
 import { create } from 'apisauce';
-import cache from "../utilities/cache"
+import cache from "../utilities/cache";
+import authStorage from '../auth/authTokenStorage';
 
 const apiClient = create({
     // "http://161.29.91.92:9000/api
-    baseURL: "http://192.168.1.68:9000/api",
+    baseURL: "http://172.23.51.11:9000/api",
 });
+// For protecting APIs
+apiClient.addAsyncRequestTransform(async(request) => {
+    const authToken = await authStorage.getToken();
+    console.log(`tokenReceived By apiClient: ${authToken}`)
+    if(!authToken) return;
+    request.headers['Authorization'] = authToken;
+    console.log(`requestHeader: ${request.headers['Authorization']}`)
+})
 
 // Implement cache 
 const get = apiClient.get;
