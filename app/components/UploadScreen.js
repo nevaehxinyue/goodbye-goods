@@ -1,8 +1,5 @@
 import React from "react";
-import { Modal, StyleSheet, View } from "react-native";
-import AppText from "./Text";
-import * as Progress from "react-native-progress";
-import color from "../config/color";
+import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 
 function UploadScreen({ onDone, visible = false }) {

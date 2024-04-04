@@ -1,13 +1,10 @@
-import React, { useContext, useState } from "react";
-import { Image, SafeAreaView, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { Image, StyleSheet } from "react-native";
 import * as Yup from "yup";
 import { AppForm, AppFormField, SubmitButton, ErrorMessage } from "../components/forms";
 import Screen from "../components/Screen";
 import authApi from "../api/auth";
-import { jwtDecode } from "jwt-decode";
-import AuthContext from "../auth/authContext";
 import "core-js/stable/atob";
-import authStorage from "../auth/authTokenStorage";
 import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({

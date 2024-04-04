@@ -19,7 +19,6 @@ const schema = Joi.object({
 
 router.get('/', auth, (req,res) => {
     const messages = messagesStore.getMessagesForUser(req.user.userId);
-    console.log(messages)
 
     const mapUser = (userId) => {
         const user = usersStore.getUserById(userId);
@@ -45,6 +44,8 @@ router.post("/", [auth, validateWith(schema)], async(req, res) => {
     const listing = listingsStore.getListing(listingId);
     if(!listing) return res.status(400).send({ error: "Invalid listing ID."});
 
+    const fromUser = usersStore.getUserById(req.user.userId);
+
     const targetUser = usersStore.getUserById(parseInt(listing.userId));
     if(!targetUser) return res.status(400).send({ error: "Invalid user ID."});
 
@@ -53,7 +54,9 @@ router.post("/", [auth, validateWith(schema)], async(req, res) => {
             fromUserId: req.user.userId,
             toUserId: listing.userId,
             listingId,
-            content: message
+            content: message,
+            userImage: fromUser.profileImage
+
         });
         
     } catch (error) {

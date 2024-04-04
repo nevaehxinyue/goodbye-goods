@@ -4,11 +4,12 @@ import * as Yup from "yup";
 import AppFormPicker from "../components/forms/FormPicker";
 import { StyleSheet } from "react-native";
 import Screen from "../components/Screen";
-import CategoryPickerItem from "../components/CategoryPickerItem";
-import FormImagePicker from "../components/FormImagePicker";
+import CategoryPickerItem from "../components/forms/CategoryPickerItem";
+import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
 import listingsApi from "../api/listings";
 import UploadScreen from "../components/UploadScreen";
+import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -77,17 +78,19 @@ const categories = [
 
 function ListingEditScreen(props) {
   const location = useLocation();
-  const [ uploadVisible, setUploadVisible ]= useState(false);
+  const [uploadVisible, setUploadVisible] = useState(false);
   // const [ progress, setProgress ] = useState(0);
+  const { user } = useAuth();
 
-  const handleSubmit = async (listing, { resetForm}) => {
+  const handleSubmit = async (listing, { resetForm }) => {
     // console.log("submiting")
     // console.log(listing)
     // console.log(location)
-    const result = await listingsApi.addListing(
-      { ...listing, location }
-    );
-
+    const result = await listingsApi.addListing({
+      ...listing,
+      location,
+      userId: user.userId,
+    });
 
     if (!result.ok) {
       // console.log(result)
@@ -97,54 +100,57 @@ function ListingEditScreen(props) {
     } else {
       setUploadVisible(true);
     }
-    
+
     // alert("Success!");
     resetForm();
   };
-  
+
   return (
     <Screen style={styles.container}>
-      <UploadScreen  onDone={() => setUploadVisible(false)} visible={uploadVisible} />
-      { !uploadVisible && 
-      <AppForm
-      initialValues={{
-        title: "",
-        price: "",
-        description: "",
-        category: null,
-        images: [],
-      }}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      <FormImagePicker name="images" />
-
-      <AppFormField name="title" maxLength={255} placeholder="Title" />
-      <AppFormField
-        keyboardType="numeric"
-        maxLength={8}
-        placeholder="Price"
-        name="price"
-        width={150}
+      <UploadScreen
+        onDone={() => setUploadVisible(false)}
+        visible={uploadVisible}
       />
-      <AppFormPicker
-        items={categories}
-        name="category"
-        numOfColumns={3}
-        placeholder="Category"
-        PickerItemComponent={CategoryPickerItem}
-        width="50%"
-      />
+      {!uploadVisible && (
+        <AppForm
+          initialValues={{
+            title: "",
+            price: "",
+            description: "",
+            category: null,
+            images: [],
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <FormImagePicker name="images" />
 
-      <AppFormField
-        maxLength={255}
-        name="description"
-        placeholder="Description"
-      />
+          <AppFormField name="title" maxLength={255} placeholder="Title" />
+          <AppFormField
+            keyboardType="numeric"
+            maxLength={8}
+            placeholder="Price"
+            name="price"
+            width={150}
+          />
+          <AppFormPicker
+            items={categories}
+            name="category"
+            numOfColumns={3}
+            placeholder="Category"
+            PickerItemComponent={CategoryPickerItem}
+            width="50%"
+          />
 
-      <SubmitButton title="Post" />
-    </AppForm>}
-      
+          <AppFormField
+            maxLength={255}
+            name="description"
+            placeholder="Description"
+          />
+
+          <SubmitButton title="Post" />
+        </AppForm>
+      )}
     </Screen>
   );
 }

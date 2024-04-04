@@ -5,5 +5,7 @@ export default Object.freeze ({
     REGISTER: "Register",
     MY_LISTINGS: "MyListings",
     MESSAGES: "Messages",
+    USERLISTINGS: "UserListingsDetail",
+    USERLISTINGS_NAVIGATOR: "UserListings",
 });
 

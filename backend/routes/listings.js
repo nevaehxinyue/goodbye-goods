@@ -22,6 +22,7 @@ const schema = Joi.object({
   price: Joi.number().required().min(1),
   categoryId: Joi.number().required().min(1),
   location: Joi.string().optional(),
+  userId: Joi.number().required().min(1),
   // location: Joi.object({
   //   latitude: Joi.number().required(),
   //   longitude: Joi.number().required(),
@@ -39,6 +40,17 @@ router.get("/", (req, res) => {
   const resources = listings.map(listingMapper);
   res.send(resources);
 });
+
+router.get("/:id", (req, res) => {
+  const userId = Number(req.params.id);
+  const userListings = listingsStore.getListingsByUserId(userId);
+  const resources = userListings.map(listingMapper);
+  res.send(resources);
+  // console.log(resources)
+ 
+})
+
+
 // Order of these middleware matters.
 // "upload" should come before other "validate" because we have to handle
 // multi-part form data.
@@ -53,7 +65,7 @@ router.post(
   "/",
  
   [
-    // auth,
+    auth,
     upload.array("images", config.get("maxImageCount")),
     validateWith(schema),
     validateCategoryId,
@@ -64,7 +76,7 @@ router.post(
     const listing = {
       title: req.body.title,
       price: parseFloat(req.body.price),
-      // userId: req.user.userId,
+      userId: req.body.userId,
       categoryId: parseInt(req.body.categoryId),
       description: req.body.description,
     };

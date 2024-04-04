@@ -39,6 +39,10 @@ const messages = [
     message.dateTime = Date.now();
     messages.push(message);
   };
+
+  const deleteMessage = message => {
+    messages.filter(m => m.content !==message.content );
+  }
   
-  module.exports = { add, getMessagesForUser };
+  module.exports = { add, getMessagesForUser, deleteMessage };
   

@@ -7,15 +7,14 @@ import { Image } from "react-native-expo-image-cache";
 import ContactSellerForm from "../ContactSellerForm";
 import useApi from "../../hooks/useApi";
 import userApi from "../../api/user";
+import routes from "../../navigation/routes";
 
-const assetsBaseUrl = process.env.ASSETS_BASEURL;
-
-function ListingDetailsScreen({ route }) {
+function ListingDetailsScreen({ route, navigation }) {
   const listing = route.params;
   const { data: user, request: loadUser } = useApi(userApi.getUser);
 
   useEffect(() => {
-    loadUser(listing.userId);
+    loadUser(parseInt(listing.userId));
   },[])
 
   return (
@@ -29,13 +28,14 @@ function ListingDetailsScreen({ route }) {
       />
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>{listing.title}</AppText>
-        <AppText style={styles.price}>{listing.price}</AppText>
+        <AppText style={styles.price}>${listing.price}</AppText>
 
         <View style={styles.userContainer}>
           <ListItem
             title={user.name}
-            subTitle={user.listings}
+            subTitle={`${user.listings} listings`}
             image={user.profileImage}
+            onPress={()=> navigation.navigate(routes.USERLISTINGS_NAVIGATOR, {user})}
           />
         </View>
         <ContactSellerForm listing={listing} />

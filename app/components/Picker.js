@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import color from "../config/color";
-import defaultStyles from "../config/styles";
 import { useState } from "react";
 import PickerItem from "./PickerItem";
 

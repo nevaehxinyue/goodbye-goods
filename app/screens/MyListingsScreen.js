@@ -8,15 +8,22 @@ import AppText from "../components/Text";
 import AppButton from "../components/Button";
 import ActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
-import myListingsApi from "../api/myListings"
+import myListingsApi from "../api/myListings";
+import { useFocusEffect } from "@react-navigation/native";
+
 
 function MyListingsScreen({navigation}) {
 
     const { data: myListings, error, loading, request: loadMyListings } = useApi(myListingsApi.getMyListings);
 
-    useEffect(() => {
+    useFocusEffect(
+      React.useCallback(()=> {
         loadMyListings();
-    },[]);
+      }, [])
+    );
+    // useEffect(() => {
+    //     loadMyListings();
+    // },[]);
 
 
     return (

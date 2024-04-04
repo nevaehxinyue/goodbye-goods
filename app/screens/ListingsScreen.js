@@ -1,4 +1,4 @@
-import React, { useEffect, } from "react";
+import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import Card from "../components/Card";
 import color from "../config/color";
@@ -9,13 +9,21 @@ import AppText from "../components/Text";
 import AppButton from "../components/Button";
 import ActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
+import { useFocusEffect } from "@react-navigation/native"
+
 
 function ListingsScreen({ navigation }) {
+
     const { data: listings, error, loading, request: loadListings } = useApi(listingsApi.getListings);
 
-  useEffect(() => {
-    loadListings();
-  }, []);
+    useFocusEffect(
+      React.useCallback(()=> {
+        loadListings();
+      }, [])
+    );
+  // useEffect(() => {
+  //   loadListings();
+  // }, []);
 
   return (
     <>

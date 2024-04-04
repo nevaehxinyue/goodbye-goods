@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import Screen from './Screen';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import ImageInput from './ImageInput';
 

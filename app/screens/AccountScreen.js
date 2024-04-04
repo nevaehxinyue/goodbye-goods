@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import ListItem from "../components/lists/ListItem";
 import color from "../config/color";
 import Icon from "../components/Icon";
 import ListItemSeparator from "../components/lists/ListItemSeparator";
 import Screen from "../components/Screen";
-import AuthContext from "../auth/authContext";
-import authStorage from "../auth/authTokenStorage";
 import useAuth from "../auth/useAuth";
 import useApi from "../hooks/useApi";
 import userApi from "../api/user";

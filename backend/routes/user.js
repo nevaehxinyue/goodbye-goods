@@ -11,9 +11,7 @@ router.get('/:id', auth, (req, res) => {
     if(!user) 
         return res.status(404).send();
 
-    const listings = listingsStore.filterListings(
-        listing => listing.userId === userId   
-    );
+    const listings = listingsStore.getListingsByUserId(userId);
 
     res.send({
         id: user.id,

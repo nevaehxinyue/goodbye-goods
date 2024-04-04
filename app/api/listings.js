@@ -4,6 +4,11 @@ const endpoint = "/listings";
 
 const getListings = () => client.get(endpoint);
 
+const getUserListings = (userId) => {
+   console.log(`url: ${endpoint}/${userId}`);
+   return client.get(`${endpoint}/${userId}`);
+};
+
 const addListing = (listing) => {
   // console.log(listing)
   const data = new FormData(); //By default the content-type is multipart/form-data for FormData
@@ -12,6 +17,7 @@ const addListing = (listing) => {
   data.append("price", listing.price);
   data.append("categoryId", listing.category.value);
   data.append("description", listing.description);
+  data.append("userId", listing.userId);
 
   listing.images.forEach((image, index) => {
     data.append("images", {
@@ -36,4 +42,5 @@ const addListing = (listing) => {
 export default {
   addListing,
   getListings,
+  getUserListings,
 };
