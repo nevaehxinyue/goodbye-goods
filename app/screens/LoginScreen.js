@@ -20,7 +20,7 @@ const { user, logIn } = useAuth();
     if(!result.ok) {
       setLoginFailed(true);
     } else{
-       console.log(`result.data: ${result.data}`)
+      //  console.log(`result.data: ${result.data}`)
       setLoginFailed(false);
       logIn(result.data); 
     }
