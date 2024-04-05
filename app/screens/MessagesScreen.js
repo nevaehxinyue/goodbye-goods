@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { FlatList } from "react-native";
 import ListItem from "../components/lists/ListItem";
 import ListItemSeparator from "../components/lists/ListItemSeparator";
@@ -8,15 +8,21 @@ import useApi from "../hooks/useApi";
 import messagesApi from "../api/messages";
 import ActivityIndicator from "../components/ActivityIndicator";
 import { useFocusEffect } from "@react-navigation/native";
+import { ErrorMessage } from "../components/forms";
 
 function MessagesScreen(props) {
-  // const [messages, setMessage] = useState([]);
+  const [ deleteError, setDeleteError] = useState();
 
   const {
     data: userMessages,
     request: loadMessages,
     loading,
   } = useApi(messagesApi.getMessages);
+
+  const {
+    request: deleteMessage,
+    error,
+  } = useApi(messagesApi.deleteMessage);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -27,15 +33,21 @@ function MessagesScreen(props) {
       fetchData();
     }, [])
   );
-  // const handleDelete = (message) => {
-  //   const newMessages = messages.filter((m) => m.content !== message.content);
-  //   setMessage(newMessages);
-  // };
+  const handleDelete = (messageId) => {
+   
+    const response = deleteMessage(String(messageId));
+    if (error) {
+      setDeleteError("Failed to delete the message.")
+    }
+    loadMessages();
+
+  };
 
   return (
     <>
       <ActivityIndicator visible={loading} />
       <Screen>
+        <ErrorMessage error={deleteError} visible={error}/>
         <FlatList
           data={userMessages}
           renderItem={({ item }) => (
@@ -45,7 +57,7 @@ function MessagesScreen(props) {
               image={item.userImage}
               onPress={() => console.log("Message selected.", item)}
               renderRightActions={() => (
-                <ListItemDeleteAction onPress={() => handleDelete(item)} />
+                <ListItemDeleteAction onPress={() => handleDelete(item.id)} />
               )}
             />
           )}

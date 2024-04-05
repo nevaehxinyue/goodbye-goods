@@ -21,7 +21,7 @@ router.post('/', validateWith(schema), (req, res) => {
         { userId: user.id, name: user.name, email},
         "jwtPrivatekey"
     );
-    console.log(`logInToken: ${token}`)
+    // console.log(`logInToken: ${token}`)
     res.send(token);
 })
 

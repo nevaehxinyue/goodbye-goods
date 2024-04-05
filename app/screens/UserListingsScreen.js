@@ -22,13 +22,19 @@ function UserListingsScreen({ navigation }) {
     request: loadUserListings,
   } = useApi(listingsApi.getUserListings);
 
-  useFocusEffect(
-    React.useCallback(()=> {
-        if(userNaviParam){
-            loadUserListings(userNaviParam.id);
-        };
-    }, [])
-  );
+  useEffect(() => {
+    if(userNaviParam){
+        loadUserListings(userNaviParam.id);
+    };
+  },[ userNaviParam])
+
+//   useFocusEffect(
+//     React.useCallback(()=> {
+//         if(userNaviParam){
+//             loadUserListings(userNaviParam.id);
+//         };
+//     }, [])
+//   );
 
   if(!userNaviParam || error){
     return null;

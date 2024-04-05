@@ -12,10 +12,14 @@ const Stack = createStackNavigator();
 const UserListingsNavigator = ({ route }) => {
   const { setUserNaviParam } = useContext(UserNaviParamContext);
 
-  if (route.params.user) {
-    setUserNaviParam(route.params.user);
-  };
 
+  useEffect(() => {
+    if (route.params.user) {
+      setUserNaviParam(route.params.user);
+    };
+
+  }, [route.params.user])
+ 
   return (
     <Stack.Navigator>
       <Stack.Screen

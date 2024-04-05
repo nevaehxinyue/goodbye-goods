@@ -40,8 +40,11 @@ const messages = [
     messages.push(message);
   };
 
-  const deleteMessage = message => {
-    messages.filter(m => m.content !==message.content );
+  const deleteMessage = messageId => {
+    const index = messages.findIndex(m=> m.id === messageId);
+    if (index !== -1){
+      messages.splice(index, 1) // Remove the messages from the array
+    }
   }
   
   module.exports = { add, getMessagesForUser, deleteMessage };

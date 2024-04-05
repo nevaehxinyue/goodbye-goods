@@ -10,10 +10,10 @@ const apiClient = create({
 // For protecting APIs
 apiClient.addAsyncRequestTransform(async(request) => {
     const authToken = await authStorage.getToken();
-    console.log(`tokenReceived By apiClient: ${authToken}`)
+    // console.log(`tokenReceived By apiClient: ${authToken}`)
     if(!authToken) return;
     request.headers['Authorization'] = authToken;
-    console.log(`requestHeader: ${request.headers['Authorization']}`)
+    // console.log(`requestHeader: ${request.headers['Authorization']}`)
 })
 
 // Implement cache 

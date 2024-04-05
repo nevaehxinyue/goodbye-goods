@@ -5,7 +5,6 @@ const endpoint = "/listings";
 const getListings = () => client.get(endpoint);
 
 const getUserListings = (userId) => {
-   console.log(`url: ${endpoint}/${userId}`);
    return client.get(`${endpoint}/${userId}`);
 };
 

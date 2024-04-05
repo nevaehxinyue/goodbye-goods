@@ -38,6 +38,17 @@ router.get('/', auth, (req,res) => {
     res.send(resources);
 });
 
+router.post("/:id", auth, (req, res) => {
+    try {
+        // console.log(req.params.id)
+        messagesStore.deleteMessage(parseInt(req.params.id));
+        res.status(201).send("Delete it successfully.");
+    } catch (error) {
+        res.send({error: "Failed to delete the message."})     
+    }
+    
+});
+
 router.post("/", [auth, validateWith(schema)], async(req, res) => {
     const { listingId, message } = req.body;
 
